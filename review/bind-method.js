@@ -38,3 +38,18 @@ const bookEA23 = book.bind(euroAir,23)
 bookEA23('jonas')
 bookEA23('sumey');
 
+
+
+//with event listeners
+lufthansa.planes = 300; 
+lufthansa.buyPlane = function () {
+    console.log(this);
+    this.planes++
+    console.log(this.planes);
+};
+
+lufthansa.buyPlane()// lufthansa.buyPlane();  //this keyword here is lufthansa
+
+
+//in an event handler functio the this keyword point to the element on which the handler is attached to , so buyplane is attached to the button: document.querySelector('.buy'), hence inside the buyplane function this keyword will point to the button element, therefore need to manually define the this keyword, but need to use a function, which does not call , in this case bind is the solution as it does not call but returns the function
+document.querySelector('.buy').addEventListener('click',lufthansa.buyPlane.bind(lufthansa))
