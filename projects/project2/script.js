@@ -102,3 +102,11 @@ arr = ['a', 'b', 'c', 'd', 'e'];
 const arr2 = ['j','i','h','g','f']
 console.log(arr2.reverse()); //f g h i j
 
+//CONCAT METHOD - CONCATENATE TWO ARRAYS
+const letters = arr.concat(arr2);
+console.log(letters);
+//or
+console.log([...arr, ...arr2]);
+
+//JOIN METHOD 
+console.log(letters.join('-'))// a-b-c-d-e...
