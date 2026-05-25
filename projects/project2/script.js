@@ -90,3 +90,9 @@ console.log(arr.slice());
 //using spread operator
 console.log(([...arr]));
 
+//SPLICE METHOD
+//it mutates the original array
+console.log(arr.splice(2)); // c d e
+// arr.splice(-1) removes last element from original array
+console.log(arr); //a b - the original array is mutated
+
