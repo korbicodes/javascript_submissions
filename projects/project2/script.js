@@ -96,3 +96,9 @@ console.log(arr.splice(2)); // c d e
 // arr.splice(-1) removes last element from original array
 console.log(arr); //a b - the original array is mutated
 
+
+//REVERSE - it mutates the original array
+arr = ['a', 'b', 'c', 'd', 'e'];  
+const arr2 = ['j','i','h','g','f']
+console.log(arr2.reverse()); //f g h i j
+
