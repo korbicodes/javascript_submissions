@@ -109,4 +109,16 @@ console.log(letters);
 console.log([...arr, ...arr2]);
 
 //JOIN METHOD 
-console.log(letters.join('-'))// a-b-c-d-e...
+console.log(letters.join('-'));// a-b-c-d-e...
+
+
+//AT METHOD
+const array = [23,11,64]
+console.log(arr[0]);
+console.log(arr.at(0));
+ 
+//getting the last element - when not knowing the length of array
+console.log(arr[arr.length - 1]); //64
+console.log(arr.slice(-1)[0]); //64
+console.log(arr.at(-1)); //64 
+
