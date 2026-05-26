@@ -127,22 +127,24 @@ const currencies = new Map([
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-for (const movement of movements) {
+for (const [i,movement] of movements.entries()) {
   if (movement > 0) {
-    console.log(`You deposited ${movement}`)
+    console.log(`Movement ${i+1} You deposited ${movement}`)
   } else {
-    console.log(`you withdrew ${Math.abs(movement)}`)
+    console.log(`Movement ${i+1} you withdrew ${Math.abs(movement)}`)
   }
 }
 
 
 //loop over the array and in each iteration executes the callback function
 //receives current element as an argument
-movements.forEach(function (movement) {
+//for each passes in the current element, the index and the entire , the order matters
+movements.forEach(function (movement,index,array) {
   if (movement > 0) {
-    console.log(`You deposited ${movement}`)
+    console.log(`Movement ${i+1} : You deposited ${movement}`)
   } else {
-    console.log(`you withdrew ${Math.abs(movement)}`)
+    console.log(`Movement ${i+1}: you withdrew ${Math.abs(movement)}`)
   }
 });
 
+//cannot break out of a forEach loop (cannot use break and continue)
