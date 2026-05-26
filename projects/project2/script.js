@@ -71,54 +71,78 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
 
 /////////////////////////////////////////////////
 
-let arr = ['a', 'b', 'c', 'd', 'e'];  
+// let arr = ['a', 'b', 'c', 'd', 'e'];  
 
-//SLICE METHOD
-console.log(arr.slice(2)); //c d e
-console.log(arr.slice(2,4)); // c d (length is end param - begin param)
+// //SLICE METHOD
+// console.log(arr.slice(2)); //c d e
+// console.log(arr.slice(2,4)); // c d (length is end param - begin param)
 
-console.log(arr.slice(-1)); // e (last element of array)
-console.log(arr.slice(1, -2)); //takes everything besides the last 2 ones: b,c
+// console.log(arr.slice(-1)); // e (last element of array)
+// console.log(arr.slice(1, -2)); //takes everything besides the last 2 ones: b,c
 
-//shallow array copy using slice method
-//use slice to chain multiple methods
-console.log(arr.slice());
-//using spread operator
-console.log(([...arr]));
+// //shallow array copy using slice method
+// //use slice to chain multiple methods
+// console.log(arr.slice());
+// //using spread operator
+// console.log(([...arr]));
 
-//SPLICE METHOD
-//it mutates the original array
-console.log(arr.splice(2)); // c d e
-// arr.splice(-1) removes last element from original array
-console.log(arr); //a b - the original array is mutated
-
-
-//REVERSE - it mutates the original array
-arr = ['a', 'b', 'c', 'd', 'e'];  
-const arr2 = ['j','i','h','g','f']
-console.log(arr2.reverse()); //f g h i j
-
-//CONCAT METHOD - CONCATENATE TWO ARRAYS
-const letters = arr.concat(arr2);
-console.log(letters);
-//or
-console.log([...arr, ...arr2]);
-
-//JOIN METHOD 
-console.log(letters.join('-'));// a-b-c-d-e...
+// //SPLICE METHOD
+// //it mutates the original array
+// console.log(arr.splice(2)); // c d e
+// // arr.splice(-1) removes last element from original array
+// console.log(arr); //a b - the original array is mutated
 
 
-//AT METHOD
-const array = [23,11,64]
-console.log(arr[0]);
-console.log(arr.at(0));
+// //REVERSE - it mutates the original array
+// arr = ['a', 'b', 'c', 'd', 'e'];  
+// const arr2 = ['j','i','h','g','f']
+// console.log(arr2.reverse()); //f g h i j
+
+// //CONCAT METHOD - CONCATENATE TWO ARRAYS
+// const letters = arr.concat(arr2);
+// console.log(letters);
+// //or
+// console.log([...arr, ...arr2]);
+
+// //JOIN METHOD 
+// console.log(letters.join('-'));// a-b-c-d-e...
+
+
+// //AT METHOD
+// const array = [23,11,64]
+// console.log(arr[0]);
+// console.log(arr.at(0));
  
-//getting the last element - when not knowing the length of array
-console.log(arr[arr.length - 1]); //64
-console.log(arr.slice(-1)[0]); //64
-console.log(arr.at(-1)); //64 
+// //getting the last element - when not knowing the length of array
+// console.log(arr[arr.length - 1]); //64
+// console.log(arr.slice(-1)[0]); //64
+// console.log(arr.at(-1)); //64
+
+
+//looping arrays using forEach
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+for (const movement of movements) {
+  if (movement > 0) {
+    console.log(`You deposited ${movement}`)
+  } else {
+    console.log(`you withdrew ${Math.abs(movement)}`)
+  }
+}
+
+
+//loop over the array and in each iteration executes the callback function
+//receives current element as an argument
+movements.forEach(function (movement) {
+  if (movement > 0) {
+    console.log(`You deposited ${movement}`)
+  } else {
+    console.log(`you withdrew ${Math.abs(movement)}`)
+  }
+});
 
