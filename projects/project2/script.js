@@ -65,11 +65,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // LECTURES
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+
 
 
 
@@ -148,3 +144,21 @@ movements.forEach(function (movement,index,array) {
 });
 
 //cannot break out of a forEach loop (cannot use break and continue)
+
+//foreach with maps
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+currencies.forEach(function (value, key, map) { 
+  console.log(`${key}: ${value}`)
+});
+
+//set - doesnt have keys 
+//use __ to refer to a unused in JS: throwable variable
+const currenciesUnique = new Set(currencies);
+currenciesUnique.forEach(function (value, _, set) {
+  console.log(`${value}: ${value}`)
+})
