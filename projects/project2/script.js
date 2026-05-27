@@ -61,6 +61,21 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = '';
+  movements.forEach(function (movement, index) {
+    const type = movement > 0 ? 'deposit' : 'withdrawal'
+    const html = `<div class="movements__row">
+          <div class="movements__type movements__type--${type}">${index+1} ${type}</div>
+          <div class="movements__value">${movement}</div>
+        </div>`
+    containerMovements.insertAdjacentHTML('afterbegin',html)
+  })
+  
+}
+
+displayMovements(account1.movements)
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -123,25 +138,25 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-for (const [i,movement] of movements.entries()) {
-  if (movement > 0) {
-    console.log(`Movement ${i+1} You deposited ${movement}`)
-  } else {
-    console.log(`Movement ${i+1} you withdrew ${Math.abs(movement)}`)
-  }
-}
+// for (const [i,movement] of movements.entries()) {
+//   if (movement > 0) {
+//     console.log(`Movement ${i+1} You deposited ${movement}`)
+//   } else {
+//     console.log(`Movement ${i+1} you withdrew ${Math.abs(movement)}`)
+//   }
+// }
 
 
 //loop over the array and in each iteration executes the callback function
 //receives current element as an argument
 //for each passes in the current element, the index and the entire , the order matters
-movements.forEach(function (movement,index,array) {
-  if (movement > 0) {
-    console.log(`Movement ${i+1} : You deposited ${movement}`)
-  } else {
-    console.log(`Movement ${i+1}: you withdrew ${Math.abs(movement)}`)
-  }
-});
+// movements.forEach(function (movement,index,array) {
+//   if (movement > 0) {
+//     console.log(`Movement ${i+1} : You deposited ${movement}`)
+//   } else {
+//     console.log(`Movement ${i+1}: you withdrew ${Math.abs(movement)}`)
+//   }
+// });
 
 //cannot break out of a forEach loop (cannot use break and continue)
 
@@ -152,13 +167,14 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-currencies.forEach(function (value, key, map) { 
-  console.log(`${key}: ${value}`)
-});
+// currencies.forEach(function (value, key, map) { 
+//   console.log(`${key}: ${value}`)
+// });
 
-//set - doesnt have keys 
-//use __ to refer to a unused in JS: throwable variable
-const currenciesUnique = new Set(currencies);
-currenciesUnique.forEach(function (value, _, set) {
-  console.log(`${value}: ${value}`)
-})
+// //set - doesnt have keys 
+// //use __ to refer to a unused in JS: throwable variable
+// const currenciesUnique = new Set(currencies);
+// currenciesUnique.forEach(function (value, _, set) {
+//   console.log(`${value}: ${value}`)
+// })
+
