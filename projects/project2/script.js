@@ -70,6 +70,7 @@ const displayMovements = function (movements) {
           <div class="movements__type movements__type--${type}">${index+1} ${type}</div>
           <div class="movements__value">${movement}</div>
         </div>`
+    //accepts 2 string, position where to attach html
     containerMovements.insertAdjacentHTML('afterbegin',html)
   })
   
