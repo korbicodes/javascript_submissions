@@ -168,14 +168,44 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-// currencies.forEach(function (value, key, map) { 
+// currencies.forEach(function (value, key, map) {
 //   console.log(`${key}: ${value}`)
 // });
 
-// //set - doesnt have keys 
+// //set - doesnt have keys
 // //use __ to refer to a unused in JS: throwable variable
 // const currenciesUnique = new Set(currencies);
 // currenciesUnique.forEach(function (value, _, set) {
 //   console.log(`${value}: ${value}`)
 // })
 
+//data transformations: map , filter, reduce
+// map returns a new array containing the results of applying an operation on all original array elements
+// filter returns a new array containing the array elements that passed a specified a test condition
+//reduce: reduces all array elements down to one single value (e.g adding all elements)
+
+
+const euroToUsd = 1.1;
+
+const usdMovement = movements.map(mov=>mov*euroToUsd)
+console.log(usdMovement);
+
+
+//using for of
+// const moveUsd =[]
+// for(const mov of movements) moveUsd.push(mov*euroToUsd)
+
+//using all map paramenters
+// const movementDescription = movements.map((mov, i, array) => {
+//   if (mov > 0) {
+//     return `Movement ${i+1}: You deposited ${mov}`
+//   } else {
+//     return `Movement ${i+1}: You withdrew ${Math.abs(mov)}`
+//   }
+// });
+
+
+const movementDescription = movements.map((mov, i) => {
+  `Movement ${i+1}: You ${mov>0 ? 'deposited': 'withdrew'} ${Math.abs(mov)}`
+})
+console.log(movementDescription)
