@@ -204,7 +204,7 @@ console.log(usdMovement);
 //   }
 // });
 
-
+//for each method creates side , with the map you return each of the strings from the callback, added into a new array
 const movementDescription = movements.map((mov, i) => {
   `Movement ${i+1}: You ${mov>0 ? 'deposited': 'withdrew'} ${Math.abs(mov)}`
 })
