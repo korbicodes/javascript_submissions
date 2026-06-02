@@ -87,6 +87,13 @@ createUsernames(accounts)
 console.log(accounts)
 
 
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, cur) => acc + cur, 0);
+  labelBalance.textContent = `${balance} EUR`
+
+}
+
+calcDisplayBalance(account1.movements)
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -226,4 +233,25 @@ const deposits = movements.filter(function (mov) {
 });
 console.log(deposits);
 const withdrawals = movements.filter(mov => mov < 0);
-console.log(withdrawals)
+console.log(withdrawals);
+
+//reduce method - the first param is the accumulator(like snowball), second param is the initial value of the accumulator
+// const balance = movements.reduce(function (acc,cur,i,arr) {
+//   console.log(`Iteration ${i} : ${acc}`);
+//   return acc + cur;
+// }, 0);
+
+//using arrow function
+const balance = movements.reduce((acc,cur)=> acc+cur,0)
+console.log(balance)
+
+//get the maximum value
+const max = movements.reduce((acc, cur) => {
+  if (acc > cur) {
+    return acc
+  } else {
+    return cur;
+  }
+ }, movements[0]);
+
+console.log(max)
