@@ -68,7 +68,7 @@ const displayMovements = function (movements) {
     const type = movement > 0 ? 'deposit' : 'withdrawal'
     const html = `<div class="movements__row">
           <div class="movements__type movements__type--${type}">${index+1} ${type}</div>
-          <div class="movements__value">${movement}</div>
+          <div class="movements__value">${movement}€</div>
         </div>`
     //accepts 2 string, position where to attach html
     containerMovements.insertAdjacentHTML('afterbegin',html)
@@ -77,6 +77,21 @@ const displayMovements = function (movements) {
 }
 
 displayMovements(account1.movements)
+//chaining many methods causes performace issues
+//bad practice to chain methods that mutate the original array
+const calcDisplaySummary = function (movements) {
+  const incomes = movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)
+  labelSumIn.textContent = `${incomes}€`;
+  const out = movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov,0)
+  labelSumOut.textContent = Math.abs(out);
+  const interest = movements.filter(mov => mov > 0).map(deposit => (deposit * 1.2 / 100)).filter((int, i, arr) => {
+    console.log(arr);
+    return int >= 1;
+  }).reduce((acc, int) => acc + int,0)
+  labelSumInterest.textContent = `${interest}€`
+
+}
+calcDisplaySummary(account1.movements)
 
 const createUsernames = function (accounts) {
   accounts.forEach(function (acc) {
@@ -254,4 +269,16 @@ const max = movements.reduce((acc, cur) => {
   }
  }, movements[0]);
 
-console.log(max)
+console.log(max);
+
+
+//chaining methods - as long as they return new methods
+const totaldeposists = movements.filter(mov => mov > 0).map(mov => mov * euroToUsd).reduce((acc, mov) => acc + mov, 0);
+console.log(totaldeposists);
+
+//to check the result of the filter method in case there is a bug
+// const totaldeposists = movements.filter(mov => mov > 0).map((mov, arr) => {
+//   console.log(array);
+//   return mov * euroToUsd;
+// }).reduce((acc, mov) => acc + mov, 0);
+// console.log(totaldeposists);
