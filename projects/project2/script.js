@@ -282,3 +282,16 @@ console.log(totaldeposists);
 //   return mov * euroToUsd;
 // }).reduce((acc, mov) => acc + mov, 0);
 // console.log(totaldeposists);
+
+
+
+//find method loops over the array - also accepts a callback function, called  as method loops over the array - retrives an element of the 
+//does not return a new array - returns the first el of array of which the condition is true
+const firstWithdrawal = movements.find(mov=>mov<0)
+console.log(movements)
+console.log(firstWithdrawal)
+
+console.log(accounts);
+//finding based on property 
+const account = accounts.find(acc=> acc.owner === 'Jessica Davis')
+console.log(account)
