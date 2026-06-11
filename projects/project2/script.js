@@ -109,6 +109,49 @@ const calcDisplayBalance = function (movements) {
 }
 
 calcDisplayBalance(account1.movements)
+
+
+//event handler
+//in html in the default behavior when you click a submit button is
+//for the page to reload - will have to prevent using preventdefault (prevent form from submitting)
+//hitting enter in input fields also triggers enter
+
+//currentacount info is needed also in other function of app - declared outside of the function 
+let currentAccount;
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value)
+  console.log(currentAccount);
+  //use optional chaining to know if the current account exists
+  if(currentAccount?.pin === Number(inputLoginPin.value))
+  {
+    //display UI and the welcome message
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`
+    containerApp.style.opacity = 100;
+    //display movements 
+
+    //display balance
+    
+    //display summary
+
+  }
+}) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -294,4 +337,4 @@ console.log(firstWithdrawal)
 console.log(accounts);
 //finding based on property 
 const account = accounts.find(acc=> acc.owner === 'Jessica Davis')
-console.log(account)
+console.log(account) 
