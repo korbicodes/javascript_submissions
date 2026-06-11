@@ -76,7 +76,7 @@ const displayMovements = function (movements) {
   
 }
 
-displayMovements(account1.movements)
+
 //chaining many methods causes performace issues
 //bad practice to chain methods that mutate the original array
 const calcDisplaySummary = function (movements) {
@@ -91,7 +91,6 @@ const calcDisplaySummary = function (movements) {
   labelSumInterest.textContent = `${interest}€`
 
 }
-calcDisplaySummary(account1.movements)
 
 const createUsernames = function (accounts) {
   accounts.forEach(function (acc) {
@@ -108,7 +107,6 @@ const calcDisplayBalance = function (movements) {
 
 }
 
-calcDisplayBalance(account1.movements)
 
 
 //event handler
@@ -129,11 +127,11 @@ btnLogin.addEventListener('click', function (e) {
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`
     containerApp.style.opacity = 100;
     //display movements 
-
+    displayMovements(currentAccount.movements)
     //display balance
-    
+    calcDisplayBalance(currentAccount.movements)
     //display summary
-
+    calcDisplaySummary(currentAccount.movements)
   }
 }) 
 
