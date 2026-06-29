@@ -101,12 +101,11 @@ createUsernames(accounts)
 console.log(accounts)
 
 
-const calcDisplayBalance = function (movements) {
-  const balance = movements.reduce((acc, cur) => acc + cur, 0);
+const calcDisplayBalance = function (account) {
+  account.balance = account.movements.reduce((acc, cur) => acc + cur, 0);
+  console.log(balance)
   labelBalance.textContent = `${balance} EUR`
-
 }
-
 
 
 //event handler
@@ -133,12 +132,27 @@ btnLogin.addEventListener('click', function (e) {
     //display movements 
     displayMovements(currentAccount.movements)
     //display balance
-    calcDisplayBalance(currentAccount.movements)
+    calcDisplayBalance(currentAccount)
     //display summary
     calcDisplaySummary(currentAccount)
   }
 }) 
 
+
+
+//transfering money
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAccount = accounts.find(acc => acc.username === inputTransferTo.value)
+  console.log(amount, receiverAccount)
+  
+  if (receiverAccount && currentAccount.balance >= amount && amount > 0 && receiverAccount?.username !== currentAccount.username) {
+    //doing the transfer
+    currentAccount.movements.push(-amount)
+    receiverAccount.movements.push(amount)
+  }
+})
 
 
 
