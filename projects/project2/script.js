@@ -62,9 +62,9 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 
-const displayMovements = function (movements) {
+const displayMovements = function (account) {
   containerMovements.innerHTML = '';
-  movements.forEach(function (movement, index) {
+  account.movements.forEach(function (movement, index) {
     const type = movement > 0 ? 'deposit' : 'withdrawal'
     const html = `<div class="movements__row">
           <div class="movements__type movements__type--${type}">${index+1} ${type}</div>
@@ -113,7 +113,17 @@ const calcDisplayBalance = function (account) {
 //for the page to reload - will have to prevent using preventdefault (prevent form from submitting)
 //hitting enter in input fields also triggers enter
 
-//currentacount info is needed also in other function of app - declared outside of the function 
+//currentacount info is needed also in other function of app - declared outside of the function
+
+const updateUI = function (acc) {
+    //display movements 
+    displayMovements(acc)
+    //display balance
+    calcDisplayBalance(acc)
+    //display summary
+    calcDisplaySummary(acc)
+}
+
 let currentAccount;
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
@@ -129,12 +139,7 @@ btnLogin.addEventListener('click', function (e) {
     //clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
-    //display movements 
-    displayMovements(currentAccount.movements)
-    //display balance
-    calcDisplayBalance(currentAccount)
-    //display summary
-    calcDisplaySummary(currentAccount)
+    updateUI(currentAccount)
   }
 }) 
 
@@ -145,12 +150,13 @@ btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
   const amount = Number(inputTransferAmount.value);
   const receiverAccount = accounts.find(acc => acc.username === inputTransferTo.value)
-  console.log(amount, receiverAccount)
+  inputTransferAmount.value = inputTransferTo.value = '';
   
   if (receiverAccount && currentAccount.balance >= amount && amount > 0 && receiverAccount?.username !== currentAccount.username) {
     //doing the transfer
     currentAccount.movements.push(-amount)
     receiverAccount.movements.push(amount)
+    updateUI(currentAccount)
   }
 })
 
