@@ -384,3 +384,16 @@ console.log(account);
 //findIndex - works same as find
 //returns the index of the found element, not the element itself
 //can use it for the close account feature - delete the account object from the accounts array - use the splice method.
+
+
+
+//findlast and findLastIndex
+console.log(movements)
+//find last value that is less value, using find start from beginning
+const lastWithDrawal = movements.findLast(mov => mov < 0);
+console.log(lastWithDrawal);
+
+
+
+
+console.log(`Your latest largest movements was ${movements.length - movements.findLastIndex(mov=>mov>1000)} movements ago`)
