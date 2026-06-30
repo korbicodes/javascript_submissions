@@ -182,7 +182,19 @@ btnClose.addEventListener('click', function (e) {
 })
 
 
+//request loan
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault()
 
+  const loan = Number(inputLoanAmount.value);
+  if (loan > 0 && currentAccount.movements.some(mov => mov >= loan * 0.1)) {
+    currentAccount.movements.push(loan)
+    
+    updateUI(currentAccount)
+  }
+  inputLoanAmount.value = ''
+
+})
 
 
 
@@ -396,4 +408,28 @@ console.log(lastWithDrawal);
 
 
 
-console.log(`Your latest largest movements was ${movements.length - movements.findLastIndex(mov=>mov>1000)} movements ago`)
+console.log(`Your latest largest movements was ${movements.length - movements.findLastIndex(mov => mov > 1000)} movements ago`);
+
+
+//some and every
+
+//some
+console.log(movements)
+//EQUALITY
+console.log(movements.includes(-130))
+
+
+//CAN SPECIFY A CONDITION
+console.log(movements.some(mov=>mov === -130))
+//check for deposits movements in the array
+const anyDeposits = movements.some(mov=>mov>500)
+console.log(anyDeposits)
+
+
+
+//every - only returns true if all elements fulfill the condition
+console.log(account4.movements.every(mov => mov > 0))
+
+//separate callback
+const deposit = mov => mov > 0;
+movements.some(deposit)
