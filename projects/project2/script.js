@@ -162,6 +162,25 @@ btnTransfer.addEventListener('click', function (e) {
 
 
 
+//delete account
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  const user = inputCloseUsername.value;
+  const userPin = Number(inputClosePin.value)
+  if (user === currentAccount.username && userPin === currentAccount.pin) {
+    const index = accounts.findIndex(function (acc) {
+      return acc.username === currentAccount.username 
+    })
+    accounts.splice(index, 1)
+    console.log(accounts)
+
+    //hide UI
+    containerApp.style.opacity = 0;
+  }
+  inputClosePin.value = inputCloseUsername.value = '';
+  
+})
+
 
 
 
@@ -359,4 +378,9 @@ console.log(firstWithdrawal)
 console.log(accounts);
 //finding based on property 
 const account = accounts.find(acc=> acc.owner === 'Jessica Davis')
-console.log(account) 
+console.log(account);
+
+
+//findIndex - works same as find
+//returns the index of the found element, not the element itself
+//can use it for the close account feature - delete the account object from the accounts array - use the splice method.
