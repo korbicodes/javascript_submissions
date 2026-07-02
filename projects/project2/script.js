@@ -433,3 +433,33 @@ console.log(account4.movements.every(mov => mov > 0))
 //separate callback
 const deposit = mov => mov > 0;
 movements.some(deposit)
+
+
+
+//flat and flatMap
+const arr = [[1,2,3],[4,5,6],7,8]
+console.log(arr.flat());
+
+
+const arrDeep = [[[1, 2], 3], [4, 5, 6], 7, 8];
+console.log(arrDeep.flat(2)); //reach second level of nesting
+
+const accountMovements = accounts.map(acc=> acc.movements)
+console.log(accountMovements);
+const allMovements = accountMovements.flat()
+console.log(allMovements);
+
+const overallBalance = allMovements.reduce(function(acc, movement){
+  return acc+mov
+}, 0);
+console.log(overallBalance)
+
+
+//using a map and then flatening is a common operation
+const overalBalancee = accounts.map(acc=>account.movements).flat().reduce(function(acc, movement){
+  return acc+mov
+}, 0);
+
+
+//flatmap() --  combines a map and flat method into just one method better for performance
+const overalBalance2 = accounts.flatMap(acc=>accounts.movements).reduce((acc,mov)=>acc+mov,0)
