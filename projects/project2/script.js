@@ -62,9 +62,11 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 
-const displayMovements = function (account) {
+const displayMovements = function (account, sort=false) {
   containerMovements.innerHTML = '';
-  account.movements.forEach(function (movement, index) {
+  const movs = sort ? account.movements.slice().sort((a, b) => a - b) : account.movements
+    
+  movs.forEach(function (movement, index) {
     const type = movement > 0 ? 'deposit' : 'withdrawal'
     const html = `<div class="movements__row">
           <div class="movements__type movements__type--${type}">${index+1} ${type}</div>
@@ -197,6 +199,14 @@ btnLoan.addEventListener('click', function (e) {
 })
 
 
+//declare state variable
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault()
+  console.log('ok')
+  displayMovements(currentAccount, !sorted)
+  sorted = !sorted;
+})
 
 
 
@@ -449,17 +459,43 @@ console.log(accountMovements);
 const allMovements = accountMovements.flat()
 console.log(allMovements);
 
-const overallBalance = allMovements.reduce(function(acc, movement){
+const overallBalance = allMovements.reduce(function(acc, mov){
   return acc+mov
 }, 0);
 console.log(overallBalance)
 
 
 //using a map and then flatening is a common operation
-const overalBalancee = accounts.map(acc=>account.movements).flat().reduce(function(acc, movement){
+const overalBalance = accounts.map(acc=>account.movements).flat().reduce(function(acc, mov){
   return acc+mov
 }, 0);
 
 
 //flatmap() --  combines a map and flat method into just one method better for performance
-const overalBalance2 = accounts.flatMap(acc=>accounts.movements).reduce((acc,mov)=>acc+mov,0)
+const overalBalance2 = accounts.flatMap(acc => accounts.movements).reduce((acc, mov) => acc + mov, 0);
+
+
+//sorting arrays
+//strings
+const owners = ['jonas', 'zach', 'adam','martha']
+console.log(owners.sort()); //sorted alphabetically - it mutates the original array
+
+//numbers
+console.log(movements);
+console.log(movements.sort()); //not ordered - sort does sorting based on strings
+
+
+//return < 0 , A,B (keep order)
+//return > 0 , B,A (switch order)
+//sorted in ascending order
+// movements.sort((a, b) => {
+//   if (a > b) return 1;
+//   if (b > a) return -1;
+// });
+
+//ascending
+movements.sort((a,b)=>a-b)
+
+//descending
+movements.sort((a,b)=>b-a)
+console.log(movements)
