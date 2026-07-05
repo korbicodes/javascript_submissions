@@ -572,3 +572,24 @@ labelBalance.addEventListener('click', function () {
   const movementsUI = Array.from(document.querySelectorAll('.movements__value'), el=>Number(el.textContent.replace('€','')))
   // console.log(movementsUI.map(el=>Number(el.textContent.replace('€',''))))
 });
+
+
+
+
+//non-destructive alternatives : toReversed, toSorted, toSpliced, with - most of the times do not want to mutate the original array
+const reversedMovements = movements.reverse(); //mutates teh original array
+
+//can do this
+//const reversedMovements = movements.slice().reverse()
+
+//toReversed replaces this step slice.reverse
+
+const newReversed = movements.toReversed()
+
+
+//toSorted (sort), toSpliced (splice) , work the same way but do not change the original array
+
+
+//movements[1] = 2000
+const newMovements = movements.with(1,2000) // array movements but updated at index 1 with the value 2000
+
