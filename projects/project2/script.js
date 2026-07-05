@@ -528,3 +528,47 @@ const grupedByActivity = Object.groupBy(accounts, account => {
 // const groupedAccounts = Object.groupBy(accounts, account => account.type);
 const groupedAccounts = Object.groupBy(accounts, ({type})=>type)
 console.log(groupedAccounts);
+
+//creating and filling arrays
+console.log([1,2,3,4,5,6,7])
+console.log(new Array(1,2,3,4,5,6,7))
+
+//empty arrays + fill method
+const b = new Array(7); //creates an element with 7 empty elements(empty x 7)
+console.log(b);
+
+//one one element can use the fill method
+// b.fill(1) - it mutates the original array
+b.fill(1, 3); //starts filling at index 3
+
+b.fill(1, 3, 5);//fill with 1s from index 3 to 5 (5 not included)
+console.log(b) //[empty x 3, 1,1,1,1]
+
+
+
+// Array.from  - using from on an Array() constructor
+//better way
+const e = Array.from({length:7}, ()=> 1)
+console.log(e);
+
+//callback function arguments: current element and current index
+const z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z);
+
+
+
+//can convert iterables (maps,sets,strings) into arrays using Array.from
+//queryselectAll returns a nodelist - smth like an array but not a real array ,hence it does not have array methods
+
+//solution: convert nodelist into an 
+//pretend the movements are not stored in an array, but you get the value from the UI
+
+const movementsUI = Array.from(document.querySelectorAll('.movements__value'))
+console.log(movementsUI);
+
+//can attach addevenet listener to every object, it does not have to be a button
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(document.querySelectorAll('.movements__value'), el=>Number(el.textContent.replace('€','')))
+  // console.log(movementsUI.map(el=>Number(el.textContent.replace('€',''))))
+});
