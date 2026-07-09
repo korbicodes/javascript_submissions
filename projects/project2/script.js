@@ -593,3 +593,38 @@ const newReversed = movements.toReversed()
 //movements[1] = 2000
 const newMovements = movements.with(1,2000) // array movements but updated at index 1 with the value 2000
 
+
+
+
+//array methods practice
+const bankDepositSum = accounts.flatMap(acc => acc.movements).filter(mov => mov > 0).reduce((sum, cur) => sum + cur, 0);
+console.log(bankDepositSum)
+
+//2
+const numDeposists1000 = accounts.flatMap(acc=>acc.movements).filter(mov=>mov>=1000).length
+//or
+const deposits1000 = accounts.flatMap(acc => acc.movements).reduce((count, cur) => {
+  cur >=1000 ? ++count : count
+},0)
+
+
+//3
+const sums = accounts.flatMap(acc => acc.movements).reduce((sums, cur) => {
+  // cur > 0 ? sum.deposits += cur : sum.withdrawals += cur;
+  // return sums;
+  sums[cur > 0 ? 'deposists' : 'withdrawals'] += cur;
+}, { deposits: 0, withdrawals: 0 });
+
+console.log(sums)
+
+//4
+const convertTitleCase = function (title) {
+  const capitalize = str=>str[0].toUpperCase() + str.slice(1)
+  const excepetions = ['a', 'an', 'the', 'but', 'or', 'on', 'in', 'with']
+
+  const titleCase = title.toLowerCase().split(' ').map(word => excepetions.includes(word) ? word : capitalize(word).join(' '));
+  
+  return capitalize(titleCase);
+}
+
+console.log(convertTitleCase('this is a good title'))
