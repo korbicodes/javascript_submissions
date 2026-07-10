@@ -728,4 +728,13 @@ labelBalance.addEventListener('click', function () {
   [...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
     if(i % 2 === 0) row.style.backgroundColor = 'orange'
   })
-})
+});
+
+
+//numeric separators - underscores which make it easier to understand large numbers, can be placed between numbers only
+const diameter = 287_460_000_000; //the engine ignores these uderscores
+console.log(diameter)
+
+const priceCents = 345_59;
+
+const transeferFee = 15_00;
