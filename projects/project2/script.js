@@ -716,3 +716,16 @@ console.log(+(2.345).toFixed(0)); //2.35 as a number
 
 
 
+//the remainder operator - returns the remainder of a division
+console.log(5 % 2) //1
+
+
+const isEven = n => n % 2 === 0;
+console.log(isEven(8)); //true
+
+
+labelBalance.addEventListener('click', function () {
+  [...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
+    if(i % 2 === 0) row.style.backgroundColor = 'orange'
+  })
+})
