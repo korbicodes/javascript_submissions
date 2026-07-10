@@ -771,4 +771,44 @@ console.log(20n == 20); //true
 console.log(huge + 'is big number') //bigint number is converted to a string
 
 console.log(10n / 3n); //3n
-console.log(10/3) //3.33333
+console.log(10 / 3); //3.33333
+
+console.log(new Date(account1.movementsDates[0]))
+console.log(new Date(2037,10))
+
+
+//CREATING DATES AND TIMES
+//creating
+const now = new Date()
+console.log(now); //current date and time
+console.log(new Date('Aug 02 2020 18:05:41'))
+console.log(new Date('December 24, 2015'));
+
+
+//month is zero based - 10 is november
+console.log(new Date(2037, 10, 19, 15, 23, 5)); //thu nov 19 2037 15:23:05
+//js autocorrects the date
+console.log(new Date(2037, 10, 31)); //thu dec 01
+console.log(new Date(2037,10,33)) //thu dec 03
+
+console.log(new Date(0))
+console.log(new Date(3 * 24 * 60 * 60 * 1000));
+
+
+//working with dates
+const later = new Date(2037, 10, 19, 15, 23);
+console.log(later.getFullYear()); //2037
+console.log(later.getMonth()); //10 -11
+console.log(later.getDate()) // gets the day of the month: 19
+console.log(later.getDay())// gets the day of the week: 4 (which is thursday)
+console.log(later.getHours()) //15
+console.log(later.getMinutes())//23
+console.log(later.getSeconds())//0
+console.log(future.ISOString()); //iso string international standard
+console.log(later.getTime); //timestamp , the miliseonds passed since jan 1 1970
+
+
+//set methods - for year,month,day...they all perform autocorrection
+later.setFullYear(2040)
+
+
