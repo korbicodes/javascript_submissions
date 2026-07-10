@@ -738,3 +738,37 @@ console.log(diameter)
 const priceCents = 345_59;
 
 const transeferFee = 15_00;
+
+
+//working with BigInt - numbers are represented as 64 bits (1s and 0s) - 32 are used to store the digits, the others are used to store the position of decimal points and sign.
+console.log(2 ** 53 - 1); //biggest nr javascript can represent
+//same number
+console.log(Number.MAX_SAFE_INTEGER)
+
+//in es2020 bigint came
+console.log(230290983747272n); //n transforms a regular nr into a bigint number
+console.log(BigInt(9732971983));
+
+//operations
+console.log(10000n + 10000n);
+console.log(972131291129n * 10000n)
+
+
+const huge = 21928109382948302n;
+const num = 23;
+console.log(huge * num); //error cannot mix bigint and other types
+//solution
+console.log(huge * BigInt(num)); 
+console.log(Math.sqrt(16n)) //does not work
+
+
+//exceptions
+console.log(20n > 15); //true
+console.log(20n === 20) //false
+console.log(typeof 20n); //bigint
+console.log(20n == 20); //true
+
+console.log(huge + 'is big number') //bigint number is converted to a string
+
+console.log(10n / 3n); //3n
+console.log(10/3) //3.33333
