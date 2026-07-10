@@ -659,3 +659,59 @@ console.log(Number.isNaN(23/0))
 console.log(Number.isFinite(20)); //true
 
 console.log(Number.isInteger(23))
+
+
+//math and rounding
+console.log(Math.sqrt(24));
+
+console.log(25 ** (1 / 2)); //5
+console.log(8 ** (1 / 3));  // 2 cubic root of 8
+
+console.log(Math.max(5, 18, 23, 11, 2));
+console.log(Math.max(5, 18, '23', 11, 2));//23 it does type coercion
+console.log(Math.max(5, 18, '23px', 11, 2)); //NaN does not do parsing
+
+
+console.log(Math.min(5, 18, 23, 11, 2));
+console.log(Math.PI * Number.parseFloat('10px') ** 2); //sqaure area of circle
+
+console.log(Math.trunc(Math.random() * 6) + 1); //random 1-6
+
+const randomInt = (min, max) => {
+  const random = Math.floor(Math.random() * (max - min + 1)) + min;
+  return random;  
+}
+
+
+console.log(randomInt(10, 20));
+
+
+//rounding
+//rounding integers
+console.log(Math.trunc(23.3)); //removes the decimal part 23
+console.log(Math.round(23.9)); //round to nearest integer  24
+
+console.log(Math.ceil(23.3)); //24 rounds up
+console.log(Math.ceil(23.9));  //24
+
+console.log(Math.floor(23.9));  //23
+console.log(Math.floor(23.9));  //23
+
+
+console.log(Math.trunc(-23.3));  //-23
+console.log(Math.floor(-23.3));  //-24 (with negative numbers works the other way around)
+
+
+
+//rounding decimals
+//2.7 is a primitive, but js does boxing so it converts it to a number object, then call the method on that object, once operation is finished it will convert it back to a primitive
+console.log((2.7).toFixed(0)); //3 returns a string
+console.log((2.7).toFixed(3)); //2.700 returns a string (3 decimal parts)
+console.log((2.345).toFixed(2)); //2.35 returns a string
+//convert the result to a  number
+console.log(+(2.345).toFixed(0)); //2.35 as a number
+
+
+
+
+
