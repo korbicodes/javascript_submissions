@@ -45,6 +45,7 @@ const account2 = {
   locale: 'en-US',
 };
 
+const accounts = [account1, account2]
 // Elements
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
@@ -80,7 +81,7 @@ const displayMovements = function (account, sort=false) {
     const type = movement > 0 ? 'deposit' : 'withdrawal'
     const html = `<div class="movements__row">
           <div class="movements__type movements__type--${type}">${index+1} ${type}</div>
-          <div class="movements__value">${movement}€</div>
+          <div class="movements__value">${movement.toFixed(2)}€</div>
         </div>`
     //accepts 2 string, position where to attach html
     containerMovements.insertAdjacentHTML('afterbegin',html)
@@ -93,14 +94,14 @@ const displayMovements = function (account, sort=false) {
 //bad practice to chain methods that mutate the original array
 const calcDisplaySummary = function (account) {
   const incomes = account.movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)
-  labelSumIn.textContent = `${incomes}€`;
+  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
   const out = account.movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov,0)
-  labelSumOut.textContent = Math.abs(out);
+  labelSumOut.textContent = Math.abs(out).toFixed(2);
   const interest = account.movements.filter(mov => mov > 0).map(deposit => (deposit * account.interestRate / 100)).filter((int, i, arr) => {
     console.log(arr);
     return int >= 1;
   }).reduce((acc, int) => acc + int,0)
-  labelSumInterest.textContent = `${interest}€`
+  labelSumInterest.textContent = `${interest.toFixed(2)}€`
 
 }
 
@@ -116,7 +117,7 @@ console.log(accounts)
 const calcDisplayBalance = function (account) {
   account.balance = account.movements.reduce((acc, cur) => acc + cur, 0);
   console.log(balance)
-  labelBalance.textContent = `${balance} EUR`
+  labelBalance.textContent = `${balance.toFixed(2)} EUR`
 }
 
 
@@ -197,8 +198,8 @@ btnClose.addEventListener('click', function (e) {
 //request loan
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault()
-
-  const loan = Number(inputLoanAmount.value);
+  //math.floor does type coercion itself - round values down
+  const loan = Math.floor(inputLoanAmount.value);
   if (loan > 0 && currentAccount.movements.some(mov => mov >= loan * 0.1)) {
     currentAccount.movements.push(loan)
     
