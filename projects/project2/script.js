@@ -73,7 +73,34 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 
-let currentAccount;
+let currentAccount, timer;
+
+
+
+const startLogOutTimer = function () {
+  //set time to 5 minutes
+  let time = 10;
+  const tick = function () {
+    //in each call, print the remaining time to UI
+    const minutes = String(Math.trunc(time / 60)).padStart(2, 0);
+    let seconds = String(time % 60).padStart(2, 0);
+    labelTimer.textContent = `${minutes}:${seconds}`;
+    //when 0 seconds, stop time and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+    time--;
+  }
+  //call the time very second
+  tick()
+  const timer = setInterval(tick, 1000)
+  return timer;
+   
+}
+
+
 
 const formattedDate = function (date1, date2,locale) {
   const calcDaysPassed = (date1, date2) => Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
@@ -216,6 +243,8 @@ btnLogin.addEventListener('click', function (e) {
     //clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
+    if(timer) clearInterval(timer)
+    timer = startLogOutTimer();
     updateUI(currentAccount)
   }
 }) 
@@ -239,6 +268,9 @@ btnTransfer.addEventListener('click', function (e) {
     receiverAccount.movementsDates.push(new Date().toISOString())
 
     updateUI(currentAccount)
+    //reset the timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
   }
 })
 
@@ -276,7 +308,10 @@ btnLoan.addEventListener('click', function (e) {
     //add loan date
     currentAccount.movementsDates.push(new Date().toISOString())
     
-    updateUI(currentAccount)
+      updateUI(currentAccount)
+      //reset the timer
+      clearInterval(timer);
+      timer = startLogOutTimer();
     },2500)
   }
   inputLoanAmount.value = ''
@@ -927,17 +962,17 @@ const newMovements = movements.with(1,2000) // array movements but updated at in
 //set interval timer keeps running until you stop
 
 //execute function after 3s (schedule function call after 3seconds)
-const ings = ['olives','spinach']
-const pizzaTimer = setTimeout((ing1,ing2) => console.log('here is your order with ', ing1, ing2),3000, ...ingridients);
-console.log('waiting...'); //it does not stop this line from executing which is called asynchronous js
+// const ings = ['olives','spinach']
+// const pizzaTimer = setTimeout((ing1,ing2) => console.log('here is your order with ', ing1, ing2),3000, ...ingridients);
+// console.log('waiting...'); //it does not stop this line from executing which is called asynchronous js
 
-if(ingridients.includes('spinach')) clearTimeout(pizzaTimer)
+// if(ingridients.includes('spinach')) clearTimeout(pizzaTimer)
 
-//can cancel the times before the delay
+// //can cancel the times before the delay
 
 
-//setInterval
-setInterval(function () {
-  const now = new Date();
-  console.log(now)
-},1000)
+// //setInterval
+// setInterval(function () {
+//   const now = new Date();
+//   console.log(now)
+// },1000)
