@@ -73,14 +73,24 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 
+let currentAccount;
+
 const displayMovements = function (account, sort=false) {
   containerMovements.innerHTML = '';
   const movs = sort ? account.movements.slice().sort((a, b) => a - b) : account.movements
     
   movs.forEach(function (movement, index) {
     const type = movement > 0 ? 'deposit' : 'withdrawal'
+
+    const date = new Date(account.movementsDates[index]);
+    const day = `${date.getDate()}`.padStart(2,'0')
+    const month = `${date.getMonth() + 1}`.padStart(2,0);
+    const year = `${date.getFullYear() + 1}`.padStart(2,0)
+    const displayDate = `${day}/${month}/${year}`;
+
+
     const html = `<div class="movements__row">
-          <div class="movements__type movements__type--${type}">${index+1} ${type}</div>
+          <div class="movements__type movements__type--${type}">${index+1} ${type}</div><div class="movements__date">${displayDate}</div>
           <div class="movements__value">${movement.toFixed(2)}€</div>
         </div>`
     //accepts 2 string, position where to attach html
@@ -137,7 +147,9 @@ const updateUI = function (acc) {
     calcDisplaySummary(acc)
 }
 
-let currentAccount;
+
+
+
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
   currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value)
@@ -148,6 +160,14 @@ btnLogin.addEventListener('click', function (e) {
     //display UI and the welcome message
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`
     containerApp.style.opacity = 1;
+
+    const date = new Date();
+    const day = `${date.getDate()}`.padStart(2,'0')
+    const month = `${date.getMonth() + 1}`.padStart(2,0);
+    const year = `${date.getFullYear()}`.padStart(2, 0)
+    const hour = `${date.getHours()}`.padStart(2,0)
+    const minutes = `${date.getMinutes()}`.padStart(2,0)
+    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minutes}`
 
     //clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
@@ -169,6 +189,11 @@ btnTransfer.addEventListener('click', function (e) {
     //doing the transfer
     currentAccount.movements.push(-amount)
     receiverAccount.movements.push(amount)
+
+    //add transfer date
+    currentAccount.movementsDates.push(new Date().toISOString())
+    receiverAccount.movementsDates.push(new Date().toISOString())
+
     updateUI(currentAccount)
   }
 })
@@ -202,6 +227,9 @@ btnLoan.addEventListener('click', function (e) {
   const loan = Math.floor(inputLoanAmount.value);
   if (loan > 0 && currentAccount.movements.some(mov => mov >= loan * 0.1)) {
     currentAccount.movements.push(loan)
+
+    //add loan date
+    currentAccount.movementsDates.push(new Date().toISOString())
     
     updateUI(currentAccount)
   }
@@ -449,7 +477,7 @@ console.log(anyDeposits)
 
 
 //every - only returns true if all elements fulfill the condition
-console.log(account4.movements.every(mov => mov > 0))
+// console.log(account4.movements.every(mov => mov > 0))
 
 //separate callback
 const deposit = mov => mov > 0;
@@ -601,214 +629,214 @@ const newMovements = movements.with(1,2000) // array movements but updated at in
 
 
 //array methods practice
-const bankDepositSum = accounts.flatMap(acc => acc.movements).filter(mov => mov > 0).reduce((sum, cur) => sum + cur, 0);
-console.log(bankDepositSum)
+// const bankDepositSum = accounts.flatMap(acc => acc.movements).filter(mov => mov > 0).reduce((sum, cur) => sum + cur, 0);
+// console.log(bankDepositSum)
 
-//2
-const numDeposists1000 = accounts.flatMap(acc=>acc.movements).filter(mov=>mov>=1000).length
-//or
-const deposits1000 = accounts.flatMap(acc => acc.movements).reduce((count, cur) => {
-  cur >=1000 ? ++count : count
-},0)
+// //2
+// const numDeposists1000 = accounts.flatMap(acc=>acc.movements).filter(mov=>mov>=1000).length
+// //or
+// const deposits1000 = accounts.flatMap(acc => acc.movements).reduce((count, cur) => {
+//   cur >=1000 ? ++count : count
+// },0)
 
 
 //3
-const sums = accounts.flatMap(acc => acc.movements).reduce((sums, cur) => {
-  // cur > 0 ? sum.deposits += cur : sum.withdrawals += cur;
-  // return sums;
-  sums[cur > 0 ? 'deposists' : 'withdrawals'] += cur;
-}, { deposits: 0, withdrawals: 0 });
+// const sums = accounts.flatMap(acc => acc.movements).reduce((sums, cur) => {
+//   // cur > 0 ? sum.deposits += cur : sum.withdrawals += cur;
+//   // return sums;
+//   sums[cur > 0 ? 'deposists' : 'withdrawals'] += cur;
+// }, { deposits: 0, withdrawals: 0 });
 
-console.log(sums)
+// console.log(sums)
 
 //4
-const convertTitleCase = function (title) {
-  const capitalize = str=>str[0].toUpperCase() + str.slice(1)
-  const excepetions = ['a', 'an', 'the', 'but', 'or', 'on', 'in', 'with']
+// const convertTitleCase = function (title) {
+//   const capitalize = str=>str[0].toUpperCase() + str.slice(1)
+//   const excepetions = ['a', 'an', 'the', 'but', 'or', 'on', 'in', 'with']
 
-  const titleCase = title.toLowerCase().split(' ').map(word => excepetions.includes(word) ? word : capitalize(word).join(' '));
+//   const titleCase = title.toLowerCase().split(' ').map(word => excepetions.includes(word) ? word : capitalize(word).join(' '));
   
-  return capitalize(titleCase);
-}
+//   return capitalize(titleCase);
+// }
 
-console.log(convertTitleCase('this is a good title'))
+// console.log(convertTitleCase('this is a good title'))
 
 
 
 
 
 //NUMBERS - all numbers are represented as floating point numbers
-console.log(23 === 23.0);  //true
+// console.log(23 === 23.0);  //true
 
-//conversion
-console.log(+'23'); //23 as number
-
-
-//parsing
-//global functions
-console.log(Number.parseInt('30px')); //30 - stings needs to start a number - to get rid of symbols that are not numbers
-console.log(Number.parseFloat('2.5rem')); //2.5
-//can also
-console.log(parseFloat('2.5rem'))
-
-//check if value is not a number
-console.log(Number.isNaN(20)); //false
-console.log(Number.isNaN('20p'))
-console.log(Number.isNaN(23/0))
-
-//check if value is number
-console.log(Number.isFinite(20)); //true
-
-console.log(Number.isInteger(23))
+// //conversion
+// console.log(+'23'); //23 as number
 
 
-//math and rounding
-console.log(Math.sqrt(24));
+// //parsing
+// //global functions
+// console.log(Number.parseInt('30px')); //30 - stings needs to start a number - to get rid of symbols that are not numbers
+// console.log(Number.parseFloat('2.5rem')); //2.5
+// //can also
+// console.log(parseFloat('2.5rem'))
 
-console.log(25 ** (1 / 2)); //5
-console.log(8 ** (1 / 3));  // 2 cubic root of 8
+// //check if value is not a number
+// console.log(Number.isNaN(20)); //false
+// console.log(Number.isNaN('20p'))
+// console.log(Number.isNaN(23/0))
 
-console.log(Math.max(5, 18, 23, 11, 2));
-console.log(Math.max(5, 18, '23', 11, 2));//23 it does type coercion
-console.log(Math.max(5, 18, '23px', 11, 2)); //NaN does not do parsing
+// //check if value is number
+// console.log(Number.isFinite(20)); //true
 
-
-console.log(Math.min(5, 18, 23, 11, 2));
-console.log(Math.PI * Number.parseFloat('10px') ** 2); //sqaure area of circle
-
-console.log(Math.trunc(Math.random() * 6) + 1); //random 1-6
-
-const randomInt = (min, max) => {
-  const random = Math.floor(Math.random() * (max - min + 1)) + min;
-  return random;  
-}
+// console.log(Number.isInteger(23))
 
 
-console.log(randomInt(10, 20));
+// //math and rounding
+// console.log(Math.sqrt(24));
+
+// console.log(25 ** (1 / 2)); //5
+// console.log(8 ** (1 / 3));  // 2 cubic root of 8
+
+// console.log(Math.max(5, 18, 23, 11, 2));
+// console.log(Math.max(5, 18, '23', 11, 2));//23 it does type coercion
+// console.log(Math.max(5, 18, '23px', 11, 2)); //NaN does not do parsing
 
 
-//rounding
-//rounding integers
-console.log(Math.trunc(23.3)); //removes the decimal part 23
-console.log(Math.round(23.9)); //round to nearest integer  24
+// console.log(Math.min(5, 18, 23, 11, 2));
+// console.log(Math.PI * Number.parseFloat('10px') ** 2); //sqaure area of circle
 
-console.log(Math.ceil(23.3)); //24 rounds up
-console.log(Math.ceil(23.9));  //24
+// console.log(Math.trunc(Math.random() * 6) + 1); //random 1-6
 
-console.log(Math.floor(23.9));  //23
-console.log(Math.floor(23.9));  //23
-
-
-console.log(Math.trunc(-23.3));  //-23
-console.log(Math.floor(-23.3));  //-24 (with negative numbers works the other way around)
+// const randomInt = (min, max) => {
+//   const random = Math.floor(Math.random() * (max - min + 1)) + min;
+//   return random;  
+// }
 
 
+// console.log(randomInt(10, 20));
 
-//rounding decimals
-//2.7 is a primitive, but js does boxing so it converts it to a number object, then call the method on that object, once operation is finished it will convert it back to a primitive
-console.log((2.7).toFixed(0)); //3 returns a string
-console.log((2.7).toFixed(3)); //2.700 returns a string (3 decimal parts)
-console.log((2.345).toFixed(2)); //2.35 returns a string
-//convert the result to a  number
-console.log(+(2.345).toFixed(0)); //2.35 as a number
+
+// //rounding
+// //rounding integers
+// console.log(Math.trunc(23.3)); //removes the decimal part 23
+// console.log(Math.round(23.9)); //round to nearest integer  24
+
+// console.log(Math.ceil(23.3)); //24 rounds up
+// console.log(Math.ceil(23.9));  //24
+
+// console.log(Math.floor(23.9));  //23
+// console.log(Math.floor(23.9));  //23
+
+
+// console.log(Math.trunc(-23.3));  //-23
+// console.log(Math.floor(-23.3));  //-24 (with negative numbers works the other way around)
 
 
 
+// //rounding decimals
+// //2.7 is a primitive, but js does boxing so it converts it to a number object, then call the method on that object, once operation is finished it will convert it back to a primitive
+// console.log((2.7).toFixed(0)); //3 returns a string
+// console.log((2.7).toFixed(3)); //2.700 returns a string (3 decimal parts)
+// console.log((2.345).toFixed(2)); //2.35 returns a string
+// //convert the result to a  number
+// console.log(+(2.345).toFixed(0)); //2.35 as a number
 
 
-//the remainder operator - returns the remainder of a division
-console.log(5 % 2) //1
 
 
-const isEven = n => n % 2 === 0;
-console.log(isEven(8)); //true
+
+// //the remainder operator - returns the remainder of a division
+// console.log(5 % 2) //1
 
 
-labelBalance.addEventListener('click', function () {
-  [...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
-    if(i % 2 === 0) row.style.backgroundColor = 'orange'
-  })
-});
+// const isEven = n => n % 2 === 0;
+// console.log(isEven(8)); //true
 
 
-//numeric separators - underscores which make it easier to understand large numbers, can be placed between numbers only
-const diameter = 287_460_000_000; //the engine ignores these uderscores
-console.log(diameter)
-
-const priceCents = 345_59;
-
-const transeferFee = 15_00;
+// labelBalance.addEventListener('click', function () {
+//   [...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
+//     if(i % 2 === 0) row.style.backgroundColor = 'orange'
+//   })
+// });
 
 
-//working with BigInt - numbers are represented as 64 bits (1s and 0s) - 32 are used to store the digits, the others are used to store the position of decimal points and sign.
-console.log(2 ** 53 - 1); //biggest nr javascript can represent
-//same number
-console.log(Number.MAX_SAFE_INTEGER)
+// //numeric separators - underscores which make it easier to understand large numbers, can be placed between numbers only
+// const diameter = 287_460_000_000; //the engine ignores these uderscores
+// console.log(diameter)
 
-//in es2020 bigint came
-console.log(230290983747272n); //n transforms a regular nr into a bigint number
-console.log(BigInt(9732971983));
+// const priceCents = 345_59;
 
-//operations
-console.log(10000n + 10000n);
-console.log(972131291129n * 10000n)
+// const transeferFee = 15_00;
 
 
-const huge = 21928109382948302n;
-const num = 23;
-console.log(huge * num); //error cannot mix bigint and other types
-//solution
-console.log(huge * BigInt(num)); 
-console.log(Math.sqrt(16n)) //does not work
+// //working with BigInt - numbers are represented as 64 bits (1s and 0s) - 32 are used to store the digits, the others are used to store the position of decimal points and sign.
+// console.log(2 ** 53 - 1); //biggest nr javascript can represent
+// //same number
+// console.log(Number.MAX_SAFE_INTEGER)
+
+// //in es2020 bigint came
+// console.log(230290983747272n); //n transforms a regular nr into a bigint number
+// console.log(BigInt(9732971983));
+
+// //operations
+// console.log(10000n + 10000n);
+// console.log(972131291129n * 10000n)
 
 
-//exceptions
-console.log(20n > 15); //true
-console.log(20n === 20) //false
-console.log(typeof 20n); //bigint
-console.log(20n == 20); //true
-
-console.log(huge + 'is big number') //bigint number is converted to a string
-
-console.log(10n / 3n); //3n
-console.log(10 / 3); //3.33333
-
-console.log(new Date(account1.movementsDates[0]))
-console.log(new Date(2037,10))
+// const huge = 21928109382948302n;
+// const num = 23;
+// console.log(huge * num); //error cannot mix bigint and other types
+// //solution
+// console.log(huge * BigInt(num)); 
+// console.log(Math.sqrt(16n)) //does not work
 
 
-//CREATING DATES AND TIMES
-//creating
-const now = new Date()
-console.log(now); //current date and time
-console.log(new Date('Aug 02 2020 18:05:41'))
-console.log(new Date('December 24, 2015'));
+// //exceptions
+// console.log(20n > 15); //true
+// console.log(20n === 20) //false
+// console.log(typeof 20n); //bigint
+// console.log(20n == 20); //true
+
+// console.log(huge + 'is big number') //bigint number is converted to a string
+
+// console.log(10n / 3n); //3n
+// console.log(10 / 3); //3.33333
+
+// console.log(new Date(account1.movementsDates[0]))
+// console.log(new Date(2037,10))
 
 
-//month is zero based - 10 is november
-console.log(new Date(2037, 10, 19, 15, 23, 5)); //thu nov 19 2037 15:23:05
-//js autocorrects the date
-console.log(new Date(2037, 10, 31)); //thu dec 01
-console.log(new Date(2037,10,33)) //thu dec 03
-
-console.log(new Date(0))
-console.log(new Date(3 * 24 * 60 * 60 * 1000));
+// //CREATING DATES AND TIMES
+// //creating
+// const now = new Date()
+// console.log(now); //current date and time
+// console.log(new Date('Aug 02 2020 18:05:41'))
+// console.log(new Date('December 24, 2015'));
 
 
-//working with dates
-const later = new Date(2037, 10, 19, 15, 23);
-console.log(later.getFullYear()); //2037
-console.log(later.getMonth()); //10 -11
-console.log(later.getDate()) // gets the day of the month: 19
-console.log(later.getDay())// gets the day of the week: 4 (which is thursday)
-console.log(later.getHours()) //15
-console.log(later.getMinutes())//23
-console.log(later.getSeconds())//0
-console.log(future.ISOString()); //iso string international standard
-console.log(later.getTime); //timestamp , the miliseonds passed since jan 1 1970
+// //month is zero based - 10 is november
+// console.log(new Date(2037, 10, 19, 15, 23, 5)); //thu nov 19 2037 15:23:05
+// //js autocorrects the date
+// console.log(new Date(2037, 10, 31)); //thu dec 01
+// console.log(new Date(2037,10,33)) //thu dec 03
+
+// console.log(new Date(0))
+// console.log(new Date(3 * 24 * 60 * 60 * 1000));
 
 
-//set methods - for year,month,day...they all perform autocorrection
-later.setFullYear(2040)
+// //working with dates
+// const later = new Date(2037, 10, 19, 15, 23);
+// console.log(later.getFullYear()); //2037
+// console.log(later.getMonth()); //10 -11
+// console.log(later.getDate()) // gets the day of the month: 19
+// console.log(later.getDay())// gets the day of the week: 4 (which is thursday)
+// console.log(later.getHours()) //15
+// console.log(later.getMinutes())//23
+// console.log(later.getSeconds())//0
+// console.log(future.ISOString()); //iso string international standard
+// console.log(later.getTime); //timestamp , the miliseonds passed since jan 1 1970
+
+
+// //set methods - for year,month,day...they all perform autocorrection
+// later.setFullYear(2040)
 
 
