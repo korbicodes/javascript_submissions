@@ -77,15 +77,23 @@ let currentAccount;
 
 const displayMovements = function (account, sort=false) {
   containerMovements.innerHTML = '';
-  const movs = sort ? account.movements.slice().sort((a, b) => a - b) : account.movements
-    
-  movs.forEach(function (movement, index) {
+
+  const combinedMovsDates = account.movements.map((mov, i) => ({
+    movement: mov,
+    movementDate: account.movementsDates.at(i)
+  }))
+
+  if (sort) combinedMovsDates.sort((a, b) => a.movement - b.movement);
+  
+
+  combinedMovsDates.forEach(function (obj, index) {
+    const { movement, movementDate } = obj;
     const type = movement > 0 ? 'deposit' : 'withdrawal'
 
-    const date = new Date(account.movementsDates[index]);
+    const date = new Date(movementDate);
     const day = `${date.getDate()}`.padStart(2,'0')
-    const month = `${date.getMonth() + 1}`.padStart(2,0);
-    const year = `${date.getFullYear() + 1}`.padStart(2,0)
+    const month = `${date.getMonth()}`.padStart(2,0);
+    const year = `${date.getFullYear()}`.padStart(2,0)
     const displayDate = `${day}/${month}/${year}`;
 
 
