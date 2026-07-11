@@ -270,12 +270,14 @@ btnLoan.addEventListener('click', function (e) {
   //math.floor does type coercion itself - round values down
   const loan = Math.floor(inputLoanAmount.value);
   if (loan > 0 && currentAccount.movements.some(mov => mov >= loan * 0.1)) {
-    currentAccount.movements.push(loan)
+    setTimeout(function(){
+      currentAccount.movements.push(loan)
 
     //add loan date
     currentAccount.movementsDates.push(new Date().toISOString())
     
     updateUI(currentAccount)
+    },2500)
   }
   inputLoanAmount.value = ''
 
@@ -932,3 +934,10 @@ console.log('waiting...'); //it does not stop this line from executing which is 
 if(ingridients.includes('spinach')) clearTimeout(pizzaTimer)
 
 //can cancel the times before the delay
+
+
+//setInterval
+setInterval(function () {
+  const now = new Date();
+  console.log(now)
+},1000)
