@@ -96,6 +96,14 @@ const formattedDate = function (date1, date2,locale) {
     return new Intl.DateTimeFormat(locale).format(date1)
   }
 }
+const currencyFormat = (value)=>{
+   const formattedMov = new Intl.NumberFormat(currentAccount.locale, {
+      style: 'currency',
+      currency: currentAccount.currency
+   }).format(value)
+  
+   return formattedMov
+}
 
 const displayMovements = function (account, sort=false) {
   containerMovements.innerHTML = '';
@@ -111,11 +119,14 @@ const displayMovements = function (account, sort=false) {
   combinedMovsDates.forEach(function (obj, index) {
     const { movement, movementDate } = obj;
     const type = movement > 0 ? 'deposit' : 'withdrawal'
+
+    //currency is independent from the locale
+    const formattedMov = currencyFormat(movement)
     
     const html = `<div class="movements__row">
           <div class="movements__type movements__type--${type}">${index + 1} ${type}</div><div class="movements__date">${formattedDate(new Date(movementDate), new Date(),account.locale)
           }</div>
-          <div class="movements__value">${movement.toFixed(2)}€</div>
+          <div class="movements__value">${formattedMov}</div>
         </div>`
     //accepts 2 string, position where to attach html
     containerMovements.insertAdjacentHTML('afterbegin',html)
@@ -128,14 +139,14 @@ const displayMovements = function (account, sort=false) {
 //bad practice to chain methods that mutate the original array
 const calcDisplaySummary = function (account) {
   const incomes = account.movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)
-  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
+  labelSumIn.textContent = currencyFormat(incomes);
   const out = account.movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov,0)
-  labelSumOut.textContent = Math.abs(out).toFixed(2);
+  labelSumOut.textContent = currencyFormat(Math.abs(out));
   const interest = account.movements.filter(mov => mov > 0).map(deposit => (deposit * account.interestRate / 100)).filter((int, i, arr) => {
     console.log(arr);
     return int >= 1;
   }).reduce((acc, int) => acc + int,0)
-  labelSumInterest.textContent = `${interest.toFixed(2)}€`
+  labelSumInterest.textContent = currencyFormat(interest)
 
 }
 
@@ -148,10 +159,11 @@ createUsernames(accounts)
 console.log(accounts)
 
 
+
 const calcDisplayBalance = function (account) {
   account.balance = account.movements.reduce((acc, cur) => acc + cur, 0);
-  console.log(balance)
-  labelBalance.textContent = `${balance.toFixed(2)} EUR`
+  // console.log(balance)
+  labelBalance.textContent = currencyFormat(account.balance);
 }
 
 
@@ -887,3 +899,21 @@ const newMovements = movements.with(1,2000) // array movements but updated at in
 
 // const days1 = calcDaysPassed(new Date(2037,3,14),new Date(2037,3,24))
 // console.log(days1) //10 (april 24 to april 14 are 10 days)
+
+
+
+
+
+
+//INTL INTERNATIONALIZING NUMBERS
+// const num = 3884764.
+
+// const options = {
+//   style: 'currency',
+//   currency: 'EUR',
+//   useGrouping: false
+// }
+
+// console.log('US: ', new INtl.NumberFormat('en-US',options).format(num)); //3,884,754.23
+// console.log('Germany', new INtl.NumberFormat('de-DE', options).format(num)) //3.884.754,23
+// console.log('Browser', new INtl.NumberFormat(navigator.language, PushSubscriptionOptions), format(num))
