@@ -75,7 +75,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 let currentAccount;
 
-const formattedDate = function (date1, date2) {
+const formattedDate = function (date1, date2,locale) {
   const calcDaysPassed = (date1, date2) => Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
   const days = calcDaysPassed(date1, date2);
   if (days ===0) {
@@ -88,11 +88,12 @@ const formattedDate = function (date1, date2) {
     return `${days} days ago`;
   }
   else {
-    const date = new Date(date1);
-    const day = `${date.getDate()}`.padStart(2, '0');
-    const month = `${date.getMonth()}`.padStart(2, 0);
-    const year = `${date.getFullYear()}`.padStart(2, 0);
-    return `${day}/${month}/${year}`;
+    // const date = new Date(date1);
+    // const day = `${date.getDate()}`.padStart(2, '0');
+    // const month = `${date.getMonth()}`.padStart(2, 0);
+    // const year = `${date.getFullYear()}`.padStart(2, 0);
+    // return `${day}/${month}/${year}`;
+    return new Intl.DateTimeFormat(locale).format(date1)
   }
 }
 
@@ -112,7 +113,7 @@ const displayMovements = function (account, sort=false) {
     const type = movement > 0 ? 'deposit' : 'withdrawal'
     
     const html = `<div class="movements__row">
-          <div class="movements__type movements__type--${type}">${index + 1} ${type}</div><div class="movements__date">${formattedDate(new Date(movementDate), new Date())
+          <div class="movements__type movements__type--${type}">${index + 1} ${type}</div><div class="movements__date">${formattedDate(new Date(movementDate), new Date(),account.locale)
           }</div>
           <div class="movements__value">${movement.toFixed(2)}€</div>
         </div>`
@@ -171,8 +172,6 @@ const updateUI = function (acc) {
 }
 
 
-
-
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
   currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value)
@@ -184,13 +183,23 @@ btnLogin.addEventListener('click', function (e) {
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`
     containerApp.style.opacity = 1;
 
+    // const day = `${date.getDate()}`.padStart(2,'0')
+    // const month = `${date.getMonth() + 1}`.padStart(2,0);
+    // const year = `${date.getFullYear()}`.padStart(2, 0)
+    // const hour = `${date.getHours()}`.padStart(2,0)
+    // const minutes = `${date.getMinutes()}`.padStart(2,0)
+    // labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minutes}`
     const date = new Date();
-    const day = `${date.getDate()}`.padStart(2,'0')
-    const month = `${date.getMonth() + 1}`.padStart(2,0);
-    const year = `${date.getFullYear()}`.padStart(2, 0)
-    const hour = `${date.getHours()}`.padStart(2,0)
-    const minutes = `${date.getMinutes()}`.padStart(2,0)
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minutes}`
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric', //or long // ir 2-digit
+      year: 'numeric', //or 2 digit
+      //weekday: long /short
+    }
+    // const locale = navigator.language;
+    labelDate.textContent = new Intl.DateTimeFormat(currentAccount.locale,options).format(date)
 
     //clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
