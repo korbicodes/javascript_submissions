@@ -925,9 +925,10 @@ const newMovements = movements.with(1,2000) // array movements but updated at in
 //set interval timer keeps running until you stop
 
 //execute function after 3s (schedule function call after 3seconds)
-
-setTimeout((ing1,ing2) => console.log('here is your order with ', ing1, ing2),3000, 'olives','spinach');
+const ings = ['olives','spinach']
+const pizzaTimer = setTimeout((ing1,ing2) => console.log('here is your order with ', ing1, ing2),3000, ...ingridients);
 console.log('waiting...'); //it does not stop this line from executing which is called asynchronous js
 
+if(ingridients.includes('spinach')) clearTimeout(pizzaTimer)
 
 //can cancel the times before the delay
