@@ -917,3 +917,17 @@ const newMovements = movements.with(1,2000) // array movements but updated at in
 // console.log('US: ', new INtl.NumberFormat('en-US',options).format(num)); //3,884,754.23
 // console.log('Germany', new INtl.NumberFormat('de-DE', options).format(num)) //3.884.754,23
 // console.log('Browser', new INtl.NumberFormat(navigator.language, PushSubscriptionOptions), format(num))
+
+
+
+//TIMERS
+//set timeout timer runs just once after a defined time
+//set interval timer keeps running until you stop
+
+//execute function after 3s (schedule function call after 3seconds)
+
+setTimeout((ing1,ing2) => console.log('here is your order with ', ing1, ing2),3000, 'olives','spinach');
+console.log('waiting...'); //it does not stop this line from executing which is called asynchronous js
+
+
+//can cancel the times before the delay
