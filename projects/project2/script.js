@@ -15,11 +15,11 @@ const account1 = {
     '2019-11-18T21:31:17.178Z',
     '2019-12-23T07:42:02.383Z',
     '2020-01-28T09:15:04.904Z',
-    '2020-04-01T10:17:24.185Z',
+    '2026-07-09T10:17:24.185Z',
     '2020-05-08T14:11:59.604Z',
     '2020-05-27T17:01:17.194Z',
     '2020-07-11T23:36:17.929Z',
-    '2020-07-12T10:51:36.790Z',
+    '2026-07-11T10:51:36.790Z',
   ],
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
@@ -39,7 +39,7 @@ const account2 = {
     '2020-02-05T16:33:06.386Z',
     '2020-04-10T14:43:26.374Z',
     '2020-06-25T18:49:59.371Z',
-    '2020-07-26T12:01:20.894Z',
+    '2026-07-10T12:01:20.894Z',
   ],
   currency: 'USD',
   locale: 'en-US',
@@ -75,6 +75,27 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 let currentAccount;
 
+const formattedDate = function (date1, date2) {
+  const calcDaysPassed = (date1, date2) => Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+  const days = calcDaysPassed(date1, date2);
+  if (days ===0) {
+    return 'Today';
+  }
+  if (days ===1) {
+    return 'Yesterday';
+  }
+  if (days <= 7) {
+    return `${days} days ago`;
+  }
+  else {
+    const date = new Date(date1);
+    const day = `${date.getDate()}`.padStart(2, '0');
+    const month = `${date.getMonth()}`.padStart(2, 0);
+    const year = `${date.getFullYear()}`.padStart(2, 0);
+    return `${day}/${month}/${year}`;
+  }
+}
+
 const displayMovements = function (account, sort=false) {
   containerMovements.innerHTML = '';
 
@@ -89,16 +110,10 @@ const displayMovements = function (account, sort=false) {
   combinedMovsDates.forEach(function (obj, index) {
     const { movement, movementDate } = obj;
     const type = movement > 0 ? 'deposit' : 'withdrawal'
-
-    const date = new Date(movementDate);
-    const day = `${date.getDate()}`.padStart(2,'0')
-    const month = `${date.getMonth()}`.padStart(2,0);
-    const year = `${date.getFullYear()}`.padStart(2,0)
-    const displayDate = `${day}/${month}/${year}`;
-
-
+    
     const html = `<div class="movements__row">
-          <div class="movements__type movements__type--${type}">${index+1} ${type}</div><div class="movements__date">${displayDate}</div>
+          <div class="movements__type movements__type--${type}">${index + 1} ${type}</div><div class="movements__date">${formattedDate(new Date(movementDate), new Date())
+          }</div>
           <div class="movements__value">${movement.toFixed(2)}€</div>
         </div>`
     //accepts 2 string, position where to attach html
@@ -716,7 +731,7 @@ const newMovements = movements.with(1,2000) // array movements but updated at in
 
 // const randomInt = (min, max) => {
 //   const random = Math.floor(Math.random() * (max - min + 1)) + min;
-//   return random;  
+//   return random;
 // }
 
 
@@ -794,7 +809,7 @@ const newMovements = movements.with(1,2000) // array movements but updated at in
 // const num = 23;
 // console.log(huge * num); //error cannot mix bigint and other types
 // //solution
-// console.log(huge * BigInt(num)); 
+// console.log(huge * BigInt(num));
 // console.log(Math.sqrt(16n)) //does not work
 
 
@@ -848,3 +863,18 @@ const newMovements = movements.with(1,2000) // array movements but updated at in
 // later.setFullYear(2040)
 
 
+
+
+
+//OPERATIONS WITH DATES
+//when converting date to number, the result is the timestamp in ms
+
+// const later = new Date(2037,10,19,15,23)
+// console.log(Number(later))
+// console.log(+later) //same result
+
+// //return number of days
+// const calcDaysPassed = (date1, date2) => Math.abs(date2 - date1) / (1000 *60*60*24);
+
+// const days1 = calcDaysPassed(new Date(2037,3,14),new Date(2037,3,24))
+// console.log(days1) //10 (april 24 to april 14 are 10 days)
