@@ -66,10 +66,10 @@ header.prepend(message); //adds element as first ch of element
 // header.append(message)
 
 //dom element is unique, it can only exist at one place at a time
-header.append(message.cloneNode(true)); //creates two messaes
+// header.append(message.cloneNode(true)); //creates two messaes
 
 
-header.before(message) //insert node before header element as sibling
+// header.before(message) //insert node before header element as sibling
 // header.after(message)
 
 
@@ -78,4 +78,50 @@ document.querySelector('.btn--close-cookie').addEventListener('click', function 
   message.remove(); //recent method
   //before - dom traversing
   // message.parentElement.removeChild(message)
-})
+});
+
+//styles 
+message.style.backgroundColor = '#37383d';
+message.style.width = '120%'
+
+//works only for inline style
+console.log(message.style.height);
+
+console.log(getComputedStyle(message));
+console.log(getComputedStyle(message).color)
+console.log(getComputedStyle(message).height)
+
+message.style.height = Number.parseFloat(getComputedStyle(message).height,10) + 30 + 'px'
+
+//document.documentElement //root in css
+// document.documentElement.style.setProperty('--color-primary','orangered')
+
+//attributes
+//if they are part of html than js will automatically create these properties on the object.
+const logo = document.querySelector('.nav__logo');
+console.log(logo.alt)
+//the absolute url
+console.log(logo.src);
+//relative url
+console.log(logo.getAttribute('src'))
+console.log(logo.className);
+
+const link = document.querySelector('.twitter-link')
+console.log(link.href)
+console.log(link.getAttribute('href'));
+
+
+//data attributes
+//for these special attr they are always stored in the dataset object
+//data attr are used a lot when working with UI especially when storing data in UI
+console.log(logo.dataset.versionNumber);
+
+//classes
+logo.classList.add('b','j')
+logo.classList.remove('b')
+logo.classList.toggle('b')
+logo.classList.contains('b')
+
+//dont use as it will override all existing classes
+logo.className - 'jonas'
+
