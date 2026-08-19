@@ -154,3 +154,28 @@ logo.classList.contains('b')
 //dont use as it will override all existing classes
 logo.className - 'jonas'
 
+
+//types of events and event handlers 
+const h1 = document.querySelector('h1');
+
+
+
+//mouseenter - hovering overing an element
+// h1.addEventListener('mouseenter', function (e) {
+//   alert('addeventlistner: great you are reading the heading')
+// })
+
+const alertH1 = function (e) {
+  alert('addeventlistner: great you are reading the heading')
+  //remove the event listener
+  h1.removeEventListener('mouseenter', alertH1)
+}
+
+h1.addEventListener('mouseenter', alertH1)
+setTimeout(()=> h1.removeEventListener('mouseenter'), 2000)
+
+//not used a lot 
+h1.onmouseenter = function (e) {
+  alert('addeventlistner: great you are reading the heading')
+};
+
